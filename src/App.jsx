@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
@@ -15,25 +16,18 @@ const router = createBrowserRouter([
     element: <Navigate to="/login" replace />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    element: <PublicRoute />,
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/signup", element: <Signup /> },
+    ],
   },
   {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/",
     element: <ProtectedRoute />,
     children: [
       {
         element: <Layout />,
-        children: [
-          {
-            path: "dashboard",
-            element: <Dashboard />,
-          },
-        ],
+        children: [{ path: "/dashboard", element: <Dashboard /> }],
       },
     ],
   },
