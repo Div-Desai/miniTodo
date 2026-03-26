@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
 import TaskCard from "./TaskCard";
+import TaskModal from "./TaskModal";
 
 const COLUMNS = [
   { id: "todo", label: "Todo" },
@@ -9,6 +11,18 @@ const COLUMNS = [
 
 export default function KanbanBoard() {
   const { data: tasks = [], isLoading, isError } = useTasks();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+
+  function handleEdit(task) {
+    setEditingTask(task);
+    setModalOpen(true);
+  }
+
+  function handleAddNew() {
+    setEditingTask(null);
+    setModalOpen(true);
+  }
 
   if (isLoading)
     return <div className="p-6 text-gray-400">Loading tasks...</div>;
@@ -19,7 +33,10 @@ export default function KanbanBoard() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-800">My Board</h1>
-        <button className="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-lg transition-colors">
+        <button
+          onClick={handleAddNew}
+          className="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-lg transition-colors"
+        >
           + Add Task
         </button>
       </div>
@@ -40,13 +57,17 @@ export default function KanbanBoard() {
 
               <div className="space-y-3">
                 {colTasks.map((task) => (
-                  <TaskCard key={task.id} task={task} />
+                  <TaskCard key={task.id} task={task} onEdit={handleEdit} />
                 ))}
               </div>
             </div>
           );
         })}
       </div>
+
+      {modalOpen && (
+        <TaskModal task={editingTask} onClose={() => setModalOpen(false)} />
+      )}
     </div>
   );
 }

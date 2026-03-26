@@ -27,13 +27,6 @@
       "description": "Create three columns with drag and drop support",
       "status": "inprogress",
       "createdAt": "2025-03-21T10:00:00.000Z"
-    },
-    {
-      "id": "3",
-      "title": "Add authentication",
-      "description": "Login page with mock JWT and protected routes",
-      "status": "todo",
-      "createdAt": "2025-03-22T10:00:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
