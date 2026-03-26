@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useTasks, useUpdateTask } from "../hooks/useTasks";
 import { useFilters } from "../hooks/useFilter";
@@ -19,31 +19,42 @@ export default function KanbanBoard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  function handleEdit(task) {
+  const handleEdit = useCallback((task) => {
     setEditingTask(task);
     setModalOpen(true);
-  }
+  }, []);
 
-  function handleAddNew() {
+  const handleAddNew = useCallback(() => {
     setEditingTask(null);
     setModalOpen(true);
-  }
+  }, []);
 
-  function onDragEnd(result) {
-    const { draggableId, destination } = result;
-    if (!destination) return;
+  const handleClose = useCallback(() => {
+    setModalOpen(false);
+  }, []);
 
-    const task = tasks.find((t) => t.id === draggableId);
-    if (!task || task.status === destination.droppableId) return;
+  const onDragEnd = useCallback(
+    (result) => {
+      const { draggableId, destination } = result;
+      if (!destination) return;
 
-    updateTask({ ...task, status: destination.droppableId });
-  }
+      const task = tasks.find((t) => t.id === draggableId);
+      if (!task || task.status === destination.droppableId) return;
 
-  const filteredTasks = tasks.filter((t) => {
-    const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = status === "all" || t.status === status;
-    return matchesSearch && matchesStatus;
-  });
+      updateTask({ ...task, status: destination.droppableId });
+    },
+    [tasks, updateTask],
+  );
+
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((t) => {
+      const matchesSearch = t.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const matchesStatus = status === "all" || t.status === status;
+      return matchesSearch && matchesStatus;
+    });
+  }, [tasks, search, status]);
 
   if (isLoading) {
     return (
@@ -81,7 +92,6 @@ export default function KanbanBoard() {
             My Board
           </h1>
           <button
-            type="button"
             onClick={handleAddNew}
             className="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-lg transition-colors"
           >
@@ -156,9 +166,7 @@ export default function KanbanBoard() {
           })}
         </div>
 
-        {modalOpen && (
-          <TaskModal task={editingTask} onClose={() => setModalOpen(false)} />
-        )}
+        {modalOpen && <TaskModal task={editingTask} onClose={handleClose} />}
       </div>
     </DragDropContext>
   );
