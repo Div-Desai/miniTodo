@@ -18,14 +18,14 @@
       "id": "1",
       "title": "Setup project structure",
       "description": "Initialize Vite + React with all dependencies",
-      "status": "inprogress",
+      "status": "todo",
       "createdAt": "2025-03-20T10:00:00.000Z"
     },
     {
       "id": "2",
       "title": "Build Kanban board",
       "description": "Create three columns with drag and drop support",
-      "status": "todo",
+      "status": "inprogress",
       "createdAt": "2025-03-21T10:00:00.000Z"
     },
     {
@@ -38,30 +38,9 @@
     {
       "title": "test 2",
       "description": "test 2 added",
-      "status": "todo",
+      "status": "done",
       "createdAt": "2026-03-26T10:56:40.902Z",
       "id": "B72tfKv5pss"
-    },
-    {
-      "title": "adasdas",
-      "description": "sdsadasd",
-      "status": "inprogress",
-      "createdAt": "2026-03-26T11:51:13.387Z",
-      "id": "wlQAwtaPysA"
-    },
-    {
-      "title": "asdd",
-      "description": "asdsdasd",
-      "status": "done",
-      "createdAt": "2026-03-26T11:58:35.759Z",
-      "id": "uhpgSwSreWg"
-    },
-    {
-      "title": "asdsad",
-      "description": "asdasdsad",
-      "status": "done",
-      "createdAt": "2026-03-26T11:58:47.438Z",
-      "id": "ZdkhH9Kggp4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

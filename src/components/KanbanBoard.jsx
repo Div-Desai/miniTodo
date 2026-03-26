@@ -4,6 +4,7 @@ import { useTasks, useUpdateTask } from "../hooks/useTasks";
 import { useFilters } from "../hooks/useFilter";
 import TaskCard from "./TaskCard";
 import TaskModal from "./TaskModal";
+import SkeletonCard from "./SkeletonCard";
 
 const COLUMNS = [
   { id: "todo", label: "Todo" },
@@ -38,15 +39,37 @@ export default function KanbanBoard() {
     updateTask({ ...task, status: destination.droppableId });
   }
 
-  // filter tasks based on search and status
   const filteredTasks = tasks.filter((t) => {
     const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = status === "all" || t.status === status;
     return matchesSearch && matchesStatus;
   });
 
-  if (isLoading)
-    return <div className="p-6 text-gray-400">Loading tasks...</div>;
+  if (isLoading) {
+    return (
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
+          <div className="h-9 bg-gray-200 rounded w-24 animate-pulse"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[1, 2, 3].map((col) => (
+            <div
+              key={col}
+              className="bg-white rounded-xl p-4 shadow-md border border-gray-100"
+            >
+              <div className="h-4 bg-gray-200 rounded w-24 mb-4 animate-pulse"></div>
+              <div className="space-y-3">
+                <SkeletonCard />
+                <SkeletonCard />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (isError)
     return <div className="p-6 text-red-500">Something went wrong.</div>;
 
