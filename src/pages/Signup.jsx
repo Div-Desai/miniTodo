@@ -28,7 +28,7 @@ export default function Signup() {
   return (
     <div className="flex h-screen bg-white">
       <div className="hidden md:flex w-1/2 bg-teal-500 flex-col justify-center space-y-20 px-16 py-16 text-white">
-        <h1 className="text-5xl font-bold tracking-tight">MINITODO</h1>
+        <h1 className="text-5xl font-bold tracking-tight">Taskflow</h1>
         <div>
           <p className="text-4xl font-bold leading-snug mb-4">
             Stay focused. <br /> Get things done.

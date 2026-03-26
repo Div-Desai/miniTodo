@@ -81,6 +81,7 @@ export default function KanbanBoard() {
             My Board
           </h1>
           <button
+            type="button"
             onClick={handleAddNew}
             className="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-lg transition-colors"
           >
@@ -132,7 +133,7 @@ export default function KanbanBoard() {
                       {colTasks.map((task, index) => (
                         <Draggable
                           key={task.id}
-                          draggableId={task.id}
+                          draggableId={String(task.id)}
                           index={index}
                         >
                           {(provided) => (

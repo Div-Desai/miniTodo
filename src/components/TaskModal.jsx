@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useCreateTask, useUpdateTask } from "../hooks/useTasks";
+import { useAuth } from "../features/auth/AuthContext";
 
 const STATUSES = [
   { value: "todo", label: "Todo" },
@@ -8,6 +9,7 @@ const STATUSES = [
 ];
 
 export default function TaskModal({ task, onClose }) {
+  const { user } = useAuth();
   const { mutate: createTask, isPending: creating } = useCreateTask(onClose);
   const { mutate: updateTask, isPending: updating } = useUpdateTask(onClose);
 
@@ -27,7 +29,11 @@ export default function TaskModal({ task, onClose }) {
     if (task) {
       updateTask({ ...task, ...data });
     } else {
-      createTask({ ...data, createdAt: new Date().toISOString() });
+      createTask({
+        ...data,
+        userId: user.id,
+        createdAt: new Date().toISOString(),
+      });
     }
   }
 
@@ -39,6 +45,7 @@ export default function TaskModal({ task, onClose }) {
             {task ? "Edit Task" : "New Task"}
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none"
           >
@@ -46,7 +53,13 @@ export default function TaskModal({ task, onClose }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(onSubmit)(e);
+          }}
+          className="space-y-4"
+        >
           <div>
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1">
               Title

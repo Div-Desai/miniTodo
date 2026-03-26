@@ -1,25 +1,55 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import Layout from "./components/Layout";
 
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+
+function Loader({ children }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center text-gray-400">
+          Loading...
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  );
+}
+
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/login" replace />,
-  },
   {
     element: <PublicRoute />,
     children: [
-      { path: "/login", element: <Login /> },
-      { path: "/signup", element: <Signup /> },
+      {
+        path: "/",
+        element: (
+          <Loader>
+            <Login />
+          </Loader>
+        ),
+      },
+      {
+        path: "/login",
+        element: (
+          <Loader>
+            <Login />
+          </Loader>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <Loader>
+            <Signup />
+          </Loader>
+        ),
+      },
     ],
   },
   {
@@ -27,7 +57,16 @@ const router = createBrowserRouter([
     children: [
       {
         element: <Layout />,
-        children: [{ path: "/dashboard", element: <Dashboard /> }],
+        children: [
+          {
+            path: "/dashboard",
+            element: (
+              <Loader>
+                <Dashboard />
+              </Loader>
+            ),
+          },
+        ],
       },
     ],
   },

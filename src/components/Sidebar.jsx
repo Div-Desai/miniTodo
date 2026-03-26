@@ -10,7 +10,7 @@ export default function Sidebar() {
     <div className="w-64 bg-white dark:bg-gray-900 h-screen flex flex-col border-r border-gray-100 dark:border-gray-800">
       <div className="px-6 py-5">
         <h1 className="text-lg font-bold text-teal-500 tracking-tight">
-          TaskFlow
+          Taskflow
         </h1>
       </div>
 

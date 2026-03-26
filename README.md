@@ -1,16 +1,43 @@
-# React + Vite
+# TaskFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Kanban-style task management application built with React.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+TaskFlow lets users manage tasks across a Kanban board with drag-and-drop support. Each user has their own workspace — tasks are isolated per user account.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Core**
 
-## Expanding the ESLint configuration
+- Login & Signup with JSON Server
+- Kanban board with three columns (Todo, In Progress, Done)
+- Create, edit and delete tasks
+- Drag and drop tasks between columns
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Filters & Search**
+
+- Search tasks by title
+- Filter by status
+- Filters persist in URL params
+
+**Bonus**
+
+- Dark / Light theme toggle
+- Toast notifications on every action
+- Skeleton loaders while fetching
+- User-based task isolation
+- Protected & public route guards
+
+## Tech Stack
+
+| Category      | Tech                           |
+| ------------- | ------------------------------ |
+| Framework     | React 18 + Vite                |
+| Routing       | React Router v6 (object-based) |
+| Server State  | TanStack React Query           |
+| Forms         | React Hook Form                |
+| Styling       | Tailwind CSS v4                |
+| Drag & Drop   | @hello-pangea/dnd              |
+| Mock API      | JSON Server                    |
+| Notifications | react-hot-toast                |

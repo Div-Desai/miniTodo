@@ -13,8 +13,8 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <App />
-        <Toaster position="bottom-right" />
       </AuthProvider>
     </QueryClientProvider>
+    <Toaster position="bottom-right" />
   </StrictMode>,
 );

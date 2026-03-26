@@ -11,12 +11,14 @@ export default function TaskCard({ task, onEdit }) {
         </p>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
           <button
+            type="button"
             onClick={() => onEdit(task)}
             className="text-xs text-gray-400 hover:text-teal-500 px-1"
           >
             Edit
           </button>
           <button
+            type="button"
             onClick={() => deleteTask(task.id)}
             className="text-xs text-gray-400 hover:text-red-500 px-1"
           >

@@ -12,38 +12,61 @@ export function useTasks() {
   });
 }
 
-export function useCreateTask(onSuccess) {
+export function useCreateTask(onDone) {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+
   return useMutation({
     mutationFn: createTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks", user?.id] });
       toast.success("Task created");
-      onSuccess?.();
+      if (onDone) onDone();
     },
     onError: () => toast.error("Failed to create task"),
   });
 }
 
-export function useUpdateTask(onSuccess) {
+export function useUpdateTask(onDone) {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+
   return useMutation({
     mutationFn: updateTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      toast.success("Task updated");
-      onSuccess?.();
+    onMutate: async (updatedTask) => {
+      await queryClient.cancelQueries({ queryKey: ["tasks", user?.id] });
+
+      const previousTasks = queryClient.getQueryData(["tasks", user?.id]);
+
+      queryClient.setQueryData(["tasks", user?.id], (old) => {
+        if (!old) return old;
+        return old.map((t) =>
+          t.id === updatedTask.id ? { ...t, ...updatedTask } : t,
+        );
+      });
+
+      return { previousTasks };
     },
-    onError: () => toast.error("Failed to update task"),
+    onSuccess: () => {
+      if (onDone) onDone();
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData(["tasks", user?.id], context.previousTasks);
+      }
+      toast.error("Failed to update task");
+    },
   });
 }
 
 export function useDeleteTask() {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+
   return useMutation({
     mutationFn: deleteTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks", user?.id] });
       toast.success("Task deleted");
     },
     onError: () => toast.error("Failed to delete task"),
