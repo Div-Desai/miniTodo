@@ -61,12 +61,12 @@
       "id": "3Vo9DJFHE0E"
     },
     {
-      "title": "test 1",
-      "description": "test 1 descisption\n",
-      "status": "todo",
+      "title": "test task",
+      "description": "test",
+      "status": "inprogress",
       "userId": "u1",
-      "createdAt": "2026-03-26T16:48:22.789Z",
-      "id": "UECy3BPbnd0"
+      "createdAt": "2026-03-26T17:28:08.414Z",
+      "id": "rE0qlnuepSQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
